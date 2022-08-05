@@ -1,3 +1,3 @@
-export class Repository {
-    
+export class Repository<TEntity> {
+
 }
