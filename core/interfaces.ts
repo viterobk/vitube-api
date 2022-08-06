@@ -4,33 +4,36 @@ import { IServices } from "../services";
 export interface IExecutionContext {
     repositories: IRepositories;
     services: IServices;
+    user?: IUserInfo;
 }
+
+export interface IUserInfo {
+    id: string;
+    role: UserRole;
+};
 
 export interface ArgumentsBase {
     executionContext: IExecutionContext;
 }
 
+export type UserRole = 'user' | 'admin';
 export type HttpMethod = 'get' | 'post' | 'put' | 'delete';
 export interface IRouteOptions {
     method: HttpMethod;
     useAuth: boolean;
     path: string;
-    tags: string[];
-    handler: (...args: any) => void;
+    permission: UserRole;
+    handler: (req, res, h: IExecutionContext) => void;
 }
 
 export interface IRoute<TArguments extends ArgumentsBase, TResult> {
     path: (path: string) => IRoute<TArguments, TResult>;
     method: (method: HttpMethod) => IRoute<TArguments, TResult>;
     argsConverter: (converter: (req, res) => TArguments) => IRoute<TArguments, TResult>;
-    handler: (handler: (args: TArguments) => TResult) => IRoute<TArguments, TResult>;
+    handler: (handler: (args: TArguments, h: IExecutionContext) => TResult) => IRoute<TArguments, TResult>;
     useAuth: (useAuth: boolean) => IRoute<TArguments, TResult>;
-    tags: (tags: string[]) => IRoute<TArguments, TResult>;
+    permission: (permission: UserRole) => IRoute<TArguments, TResult>;
     build: () => IRouteOptions;
-}
-
-export interface IService {
-
 }
 
 export interface IRepository<TEntity> {
