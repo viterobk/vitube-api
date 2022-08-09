@@ -24,5 +24,6 @@ module.exports = {
         plugins: [new TsconfigPathsPlugin()],
     },
     target: 'node',
+    devtool: 'eval-cheap-module-source-map',
     externals: [require('webpack-node-externals')()],
 }
