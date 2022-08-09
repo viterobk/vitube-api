@@ -4,8 +4,10 @@
   "description": "Back-end part for vitube",
   "main": "dist/index.js",
   "scripts": {
-    "start": "yarn build && node ./dist/index.js",
-    "build": "./node_modules/typescript/bin/tsc",
+    "start": "yarn build && node ./bundle.js",
+    "start:production": "yarn build:production && node ./bundle.js",
+    "build": "./node_modules/.bin/webpack --mode development",
+    "build:production": "./node_modules/.bin/webpack --mode production",
     "test": "test"
   },
   "author": "",
@@ -15,8 +17,17 @@
     "@types/lodash": "^4.14.182",
     "body-parser": "^1.20.0",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "lodash": "^4.17.21",
-    "typescript": "^4.7.4"
+    "ts-loader": "^9.3.1",
+    "tsconfig-paths": "^4.1.0",
+    "tsconfig-paths-webpack-plugin": "^4.0.0",
+    "typescript": "^4.7.4",
+    "webpack": "^5.74.0",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.10.0"
   }
 }
