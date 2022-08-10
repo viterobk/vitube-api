@@ -9,6 +9,7 @@ export default [
         .argsConverter((req, res) => ({ req }))
         .handler((req) => {
             console.log('Get users handler');
+            return 'Here will be a list of users!';
         })
         .build(),
     
@@ -24,13 +25,24 @@ export default [
         .build(),
 
     new Route()
-        .path('/users')
+        .path('/users/:userid')
         .method('put')
         .useAuth(true)
         .permission('user')
         .argsConverter((req, res) => ({ req }))
         .handler((req) => {
             console.log('Update user data handler');
+        })
+        .build(),
+
+    new Route()
+        .path('/users')
+        .method('post')
+        .useAuth(true)
+        .permission('user')
+        .argsConverter((req, res) => ({ req }))
+        .handler((req) => {
+            console.log('Add user data handler');
         })
         .build(),
 ]
