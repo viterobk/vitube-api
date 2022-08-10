@@ -4,7 +4,7 @@
   "description": "Back-end part for vitube",
   "main": "dist/index.js",
   "scripts": {
-    "start": "yarn build && node ./bundle.js",
+    "start": "yarn build && node --inspect=0.0.0.0 ./bundle.js",
     "start:production": "yarn build:production && node ./bundle.js",
     "build": "./node_modules/.bin/webpack --mode development",
     "build:production": "./node_modules/.bin/webpack --mode production",
