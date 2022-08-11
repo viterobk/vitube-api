@@ -2,12 +2,72 @@ version: '3.4'
 
 services:
   vitubeservice:
-    image: vitubeservice
+    platform: linux/amd64
     build:
       context: .
       target: vitube_api
+    restart: always
+    networks:
+      - internal_network
     environment:
       NODE_ENV: development
     ports:
       - 3000:3000
       - 9229:9229
+    depends_on:
+      - db
+      - db-read
+
+  db:
+    platform: linux/amd64
+    image: docker.io/bitnami/postgresql:13.3.0
+    volumes:
+      - '.db:/bitnami/postgresql'
+    restart: always
+    networks:
+      - internal_network
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=master
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=repl_password
+      - POSTGRESQL_DATABASE=joepay
+      - POSTGRESQL_USERNAME=postgres
+      - POSTGRESQL_PASSWORD=123
+      - PGPASSWORD=123
+
+  db-read:
+    platform: linux/amd64
+    image: docker.io/bitnami/postgresql:13.3.0
+    volumes:
+      - '.db-read:/bitnami/postgresql'
+    depends_on:
+      - db
+    restart: always
+    ports:
+      - 5432
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=repl_password
+      - POSTGRESQL_MASTER_HOST=db
+      - POSTGRESQL_MASTER_PORT_NUMBER=5432
+      - POSTGRESQL_PASSWORD=123
+
+  pg-admin:
+    image: dpage/pgadmin4
+    restart: always
+    networks:
+      - internal_network
+    logging:
+      driver: none
+    ports:
+      - 5001:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@domain.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+
+networks:
+  internal_network:
+    driver: bridge
