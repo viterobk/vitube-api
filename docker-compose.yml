@@ -20,7 +20,7 @@ services:
 
   db:
     platform: linux/amd64
-    image: docker.io/bitnami/postgresql:13.3.0
+    image: docker.io/bitnami/postgresql:14.4.0
     volumes:
       - '.db:/bitnami/postgresql'
     restart: always
@@ -39,7 +39,7 @@ services:
 
   db-read:
     platform: linux/amd64
-    image: docker.io/bitnami/postgresql:13.3.0
+    image: docker.io/bitnami/postgresql:14.4.0
     volumes:
       - '.db-read:/bitnami/postgresql'
     depends_on:
