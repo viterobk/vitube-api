@@ -1,0 +1,7 @@
+{
+  "signal": "SIGINT",
+  "ignore": [".git", "node_modules"],
+  "delay": 500,
+  "ext": "js, ts",
+  "watch": ["./bundle.js"]
+}

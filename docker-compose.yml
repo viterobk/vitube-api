@@ -6,6 +6,9 @@ services:
     build:
       context: .
       target: vitube_api
+    container_name: vitube-api
+    volumes: 
+      - '.:/app'
     restart: always
     networks:
       - internal_network

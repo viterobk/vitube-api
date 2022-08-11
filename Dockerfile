@@ -9,4 +9,4 @@ EXPOSE 9229
 COPY package.json yarn.lock /app/
 RUN yarn
 COPY . /app
-CMD ["yarn", "start"]
+CMD ["yarn", "start:development"]
