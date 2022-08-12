@@ -15,7 +15,7 @@ services:
     environment:
       NODE_ENV: development
     ports:
-      - 3000:3000
+      - 8000:8000
       - 9229:9229
     depends_on:
       - db
@@ -30,7 +30,7 @@ services:
     networks:
       - internal_network
     ports:
-      - 5432:5432
+      - 5432
     environment:
       - POSTGRESQL_REPLICATION_MODE=master
       - POSTGRESQL_REPLICATION_USER=repl_user

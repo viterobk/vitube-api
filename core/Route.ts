@@ -50,10 +50,18 @@ export class Route<TArguments extends ArgumentsBase, TResult> implements IRoute<
 
     build = () => {
         this._validateOptions();
-        const handler = (req, res, h) => {
+        const handler = (req, res, next) => {
+            const { user } = req.context;
+            const authorized = user && (this._permission !== 'user' || user.role === 'admin');
+            if (this._useAuth && !authorized) {
+                res.status(301).send('Unauthorized');
+                next();
+                return;
+            }
             const args = this._argsConverter(req, res);
-            const result = this._handler(args, h);
+            const result = this._handler(args, req.context);
             res.status(200).send(result);
+            next();
         }
         return {
             method: this._method,

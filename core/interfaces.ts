@@ -20,10 +20,8 @@ export type UserRole = 'user' | 'admin';
 export type HttpMethod = 'get' | 'post' | 'put' | 'delete';
 export interface IRouteOptions {
     method: HttpMethod;
-    useAuth: boolean;
     path: string;
-    permission: UserRole;
-    handler: (req, res, h: IExecutionContext) => void;
+    handler: (req, res, next) => void;
 }
 
 export interface IRoute<TArguments extends ArgumentsBase, TResult> {
@@ -41,4 +39,8 @@ export interface IRepository<TEntity> {
     delete: (entityId: string) => Promise<TEntity>;
     findAll: (options?: any) => Promise<TEntity[]>;
     fingById: (entityId: string) => Promise<TEntity>;
+}
+
+export interface IInitializer {
+    initialize: () => void;
 }
