@@ -1,0 +1,9 @@
+{
+    "db": {
+        "username": "postgres",
+        "password": "123",
+        "database": "vitube",
+        "host": "db",
+        "dialect": "postgres"
+    }
+}
