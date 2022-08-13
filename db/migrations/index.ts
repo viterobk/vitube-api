@@ -1,5 +1,5 @@
 /**
- This file is auto generated. Please do not edit it manually.
+ This file is auto generated. Please do not modify it manually.
  Run "yarn migration <migration name>" to generate a migration and automatically add it to index.js
  */
 
