@@ -1,7 +1,2 @@
-export interface IServices {
-    
-}
-
-export const getServices = (): IServices => {
-    return {};
-}
+export { IServices } from './IServices';
+export { initializeServices } from './initializeServices';
