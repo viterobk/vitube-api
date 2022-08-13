@@ -2,7 +2,6 @@ import { IRepositories } from "../repositories";
 import { IServices } from "../services";
 
 export interface IExecutionContext {
-    repositories: IRepositories;
     services: IServices;
     user?: IUserInfo;
 }

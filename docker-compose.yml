@@ -30,7 +30,7 @@ services:
     networks:
       - internal_network
     ports:
-      - 5432
+      - 5432:5432
     environment:
       - POSTGRESQL_REPLICATION_MODE=master
       - POSTGRESQL_REPLICATION_USER=repl_user

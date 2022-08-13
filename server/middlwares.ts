@@ -1,13 +1,8 @@
-import { getServices } from '../services';
-import { getRepositories } from '../repositories';
-
-const services = getServices();
-const repositories = getRepositories();
+import { serviceProvider } from '../services';
 
 export const addContextMiddleware = (req, res, next) => {
     req.context = {
-        services,
-        repositories,
+        services: serviceProvider.data,
     }
     next();
 }
