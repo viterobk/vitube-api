@@ -4,7 +4,7 @@ import cors from 'cors';
 import config from 'config';
 import routes from '../routes';
 import { IRouteOptions } from '../core/interfaces';
-import { addContextMiddleware, authorizeMiddleware, handleErrorMiddlware } from './middlwares';
+import { addContextMiddleware, authMiddleware, handleErrorMiddlware } from './middlwares';
 import logger from '../core/logger';
 
 export default class {
@@ -33,7 +33,7 @@ export default class {
     constructor() {
         this._app.use(cors());
         this._app.use(addContextMiddleware);
-        this._app.use(authorizeMiddleware);
+        this._app.use(authMiddleware);
 
         routes.map(this._registerRoute);
 

@@ -1,4 +1,4 @@
-import { serviceProvider } from '../services';
+import { IServices, serviceProvider } from '../services';
 
 export const addContextMiddleware = (req, res, next) => {
     req.context = {
@@ -6,19 +6,13 @@ export const addContextMiddleware = (req, res, next) => {
     }
     next();
 }
-export const authorizeMiddleware = (req, res, next) => {
-    console.log(`Authorizing request: ${req.url}`);
-    req.context = req.context || {};
 
-    if (req.headers?.auth) {
-        req.context.user = {
-            id: 'user_id',
-            role: 'user_role',
-            name: 'user_name',
-        }
-    }
+export const authMiddleware = async (req, res, next) => {
+    const { authorization } = req.context.services as IServices;
+    req.context.user = await authorization.authenticateUser(req.headers?.auth);
     next();
 }
+
 export const handleErrorMiddlware = (err, req, res, next) => {
     res.status(500).send(err.message);
     next();
