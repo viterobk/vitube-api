@@ -10,7 +10,6 @@ export class Route<TArguments extends ArgumentsBase, TResult> implements IRoute<
     private _validateOptions = () => {
         const errors = [];
         if(!this._path) errors.push('Route path is not defined');
-        if(!this._argsConverter) errors.push('Args converter is not defined');
         if(!this._handler) errors.push('Route handler is not defined');
         if(!this._authStrategy) errors.push('Auth strategy is not defined');
         if(errors.length) {
@@ -53,7 +52,7 @@ export class Route<TArguments extends ArgumentsBase, TResult> implements IRoute<
                 next();
                 return;
             }
-            const args = this._argsConverter(req, res);
+            const args = this._argsConverter ? this._argsConverter(req, res) : undefined;
             const result = this._handler(args, req.context);
             res.status(200).send(result);
             next();
