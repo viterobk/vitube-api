@@ -55,3 +55,7 @@ export interface IAuthResult {
 export interface IAuthStrategy {
     authorize: (user: IUserInfo) => IAuthResult;
 }
+
+export interface IEntity {
+    id: number;
+}

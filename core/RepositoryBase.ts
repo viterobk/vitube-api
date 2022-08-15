@@ -1,6 +1,6 @@
 import { IProvider } from "./IProvider";
 
-export class RepositoryBase<TEntity, TRepositories> {
+export class RepositoryBase<TRepositories> {
     constructor(repositoryProvider: IProvider<TRepositories>) {
         this._repositoryProvider = repositoryProvider;
     }
