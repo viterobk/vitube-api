@@ -7,8 +7,9 @@ export interface IExecutionContext {
 }
 
 export interface IUserInfo {
-    id: string;
-    role: UserRole;
+    isValid: boolean;
+    id?: string;
+    role?: UserRole;
 };
 
 export interface ArgumentsBase {
@@ -17,6 +18,8 @@ export interface ArgumentsBase {
 
 export type UserRole = 'user' | 'admin';
 export type HttpMethod = 'get' | 'post' | 'put' | 'delete';
+export type AuthStrategy = 'all' | 'user' | 'admin';
+
 export interface IRouteOptions {
     method: HttpMethod;
     path: string;
@@ -28,8 +31,7 @@ export interface IRoute<TArguments extends ArgumentsBase, TResult> {
     method: (method: HttpMethod) => IRoute<TArguments, TResult>;
     argsConverter: (converter: (req, res) => TArguments) => IRoute<TArguments, TResult>;
     handler: (handler: (args: TArguments, h: IExecutionContext) => TResult) => IRoute<TArguments, TResult>;
-    useAuth: (useAuth: boolean) => IRoute<TArguments, TResult>;
-    permission: (permission: UserRole) => IRoute<TArguments, TResult>;
+    authStrategy: (authStrategy: IAuthStrategy) => IRoute<TArguments, TResult>;
     build: () => IRouteOptions;
 }
 
@@ -42,4 +44,14 @@ export interface IRepository<TEntity> {
 
 export interface IInitializer {
     initialize: () => void;
+}
+
+export interface IAuthResult {
+    authorized: boolean;
+    code?: number;
+    message?: string;
+}
+
+export interface IAuthStrategy {
+    authorize: (user: IUserInfo) => IAuthResult;
 }

@@ -1,13 +1,13 @@
 import { Route } from "../core/Route";
+import { admin, user } from "./authStrategies";
 
 export default [
     new Route()
         .path('/users')
         .method('get')
-        .useAuth(true)
-        .permission('admin')
+        .authStrategy(admin)
         .argsConverter((req, res) => ({ req }))
-        .handler((req) => {
+        .handler((req, context) => {
             console.log('Get users handler');
             return 'Here will be a list of users!';
         })
@@ -16,8 +16,7 @@ export default [
     new Route()
         .path('/users/:userid')
         .method('get')
-        .useAuth(true)
-        .permission('user')
+        .authStrategy(user)
         .argsConverter((req, res) => ({ req }))
         .handler((req) => {
             console.log('Get user by ID handler');
@@ -27,8 +26,7 @@ export default [
     new Route()
         .path('/users/:userid')
         .method('put')
-        .useAuth(true)
-        .permission('user')
+        .authStrategy(user)
         .argsConverter((req, res) => ({ req }))
         .handler((req) => {
             console.log('Update user data handler');
@@ -38,8 +36,7 @@ export default [
     new Route()
         .path('/users')
         .method('post')
-        .useAuth(true)
-        .permission('user')
+        .authStrategy(user)
         .argsConverter((req, res) => ({ req }))
         .handler((req) => {
             console.log('Add user data handler');

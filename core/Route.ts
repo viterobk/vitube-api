@@ -1,18 +1,18 @@
-import { ArgumentsBase, HttpMethod, IExecutionContext, IRoute, UserRole } from "./interfaces";
+import { ArgumentsBase, HttpMethod, IAuthStrategy, IExecutionContext, IRoute, UserRole } from "./interfaces";
 
 export class Route<TArguments extends ArgumentsBase, TResult> implements IRoute<TArguments, TResult> {
     private _path: string;
-    private _useAuth: boolean = true;
+    private _authStrategy: IAuthStrategy;
     private _argsConverter: (req, res) => TArguments;
     private _handler: (args: TArguments, h: IExecutionContext) => TResult;
     private _method: HttpMethod;
-    private _permission: UserRole = 'admin';
 
     private _validateOptions = () => {
         const errors = [];
         if(!this._path) errors.push('Route path is not defined');
         if(!this._argsConverter) errors.push('Args converter is not defined');
         if(!this._handler) errors.push('Route handler is not defined');
+        if(!this._authStrategy) errors.push('Auth strategy is not defined');
         if(errors.length) {
             throw Error(`Route validation errors found:\r\n${errors.join('\r\n    ')}`);
         }
@@ -28,8 +28,8 @@ export class Route<TArguments extends ArgumentsBase, TResult> implements IRoute<
         return this;
     }
 
-    useAuth = (useAuth) => {
-        this._useAuth = useAuth;
+    authStrategy = (authStrategy: IAuthStrategy) => {
+        this._authStrategy = authStrategy;
         return this;
     }
 
@@ -43,18 +43,13 @@ export class Route<TArguments extends ArgumentsBase, TResult> implements IRoute<
         return this;
     }
 
-    permission = (permission) => {
-        this._permission = permission;
-        return this;
-    }
-
     build = () => {
         this._validateOptions();
         const handler = (req, res, next) => {
             const { user } = req.context;
-            const authorized = user && (this._permission !== 'user' || user.role === 'admin');
-            if (this._useAuth && !authorized) {
-                res.status(301).send('Unauthorized');
+            const { authorized, code, message } = this._authStrategy.authorize(user);
+            if (!authorized) {
+                res.status(code).send(message);
                 next();
                 return;
             }
@@ -66,8 +61,6 @@ export class Route<TArguments extends ArgumentsBase, TResult> implements IRoute<
         return {
             method: this._method,
             path: this._path,
-            useAuth: this._useAuth,
-            permission: this._permission,
             handler,
         }
     }
