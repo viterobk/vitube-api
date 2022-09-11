@@ -1,0 +1,1 @@
+export type AuthStrategy = 'all' | 'user' | 'admin';

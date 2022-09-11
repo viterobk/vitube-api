@@ -1,4 +1,4 @@
-import { IProvider } from "./IProvider";
+import { IProvider } from "./interfaces";
 
 export class ServiceBase<TServices, TRepositories> {
     constructor(serviceProvider: IProvider<TServices>, repositoryProvider: IProvider<TRepositories>) {

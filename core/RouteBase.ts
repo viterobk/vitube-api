@@ -1,11 +1,13 @@
-import { ArgumentsBase, HttpMethod, IAuthStrategy, IExecutionContext, IRoute, UserRole } from "./interfaces";
+import { IAuthStrategy, IExecutionContextBase, IRoute } from "./interfaces";
+import { HttpMethod } from "./types";
 
-export class Route<TArguments extends ArgumentsBase, TResult> implements IRoute<TArguments, TResult> {
+export abstract class RouteBase<TArguments, TResult, TExecutionContext> implements IRoute<TArguments, TResult, TExecutionContext> {
     private _path: string;
     private _authStrategy: IAuthStrategy;
     private _argsConverter: (req, res) => TArguments;
-    private _handler: (args: TArguments, h: IExecutionContext) => TResult;
+    private _handler: (args: TArguments, h: TExecutionContext) => TResult;
     private _method: HttpMethod;
+    protected abstract _getExecutionContext: (req, res) => TExecutionContext;
 
     private _validateOptions = () => {
         const errors = [];
@@ -37,25 +39,30 @@ export class Route<TArguments extends ArgumentsBase, TResult> implements IRoute<
         return this;
     }
 
-    handler = (handler: (args: TArguments, h: IExecutionContext) => TResult) => {
+    handler = (handler: (args: TArguments, h: TExecutionContext) => TResult) => {
         this._handler = handler;
         return this;
     }
 
     build = () => {
         this._validateOptions();
-        const handler = (req, res, next) => {
-            const { user } = req.context;
-            const { authorized, code, message } = this._authStrategy.authorize(user);
-            if (!authorized) {
-                res.status(code).send(message);
+        const handler = async (req, res, next) => {
+            try {
+                const { user } = req.context;
+                const { authorized, code, message } = this._authStrategy.authorize(user);
+                if (!authorized) {
+                    res.status(code).send(message);
+                    next();
+                    return;
+                }
+                const args = this._argsConverter ? this._argsConverter(req, res) : undefined;
+                const executionContext = this._getExecutionContext(req, res);
+                const result = await this._handler(args, executionContext);
+                res.status(200).send(result);
                 next();
-                return;
+            } catch (err) {
+                next(err);
             }
-            const args = this._argsConverter ? this._argsConverter(req, res) : undefined;
-            const result = this._handler(args, req.context);
-            res.status(200).send(result);
-            next();
         }
         return {
             method: this._method,

@@ -1,6 +1,6 @@
-import { IProvider } from "./IProvider";
+import { IProvider } from "./interfaces/IProvider";
 
-export default class Provider<TDataType> implements IProvider<TDataType> {
+export class Provider<TDataType> implements IProvider<TDataType> {
     data: TDataType;
     initialize = (data: TDataType) => {
         this.data = data;
