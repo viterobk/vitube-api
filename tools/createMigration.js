@@ -12,7 +12,7 @@ const format = (num, digits = 2) => {
 }
 
 const nameArg = process.argv[2].replaceAll(' ', '_').toLowerCase();
-const migrationsPath = path.resolve(process.cwd(), 'db/migrations');
+const migrationsPath = path.resolve(process.cwd(), 'migrations');
 const now = new Date();
 const timestring = [
     now.getFullYear(),
@@ -25,39 +25,15 @@ const timestring = [
 const fullName = `${timestring}_${nameArg}`;
 const filePath = path.resolve(migrationsPath, `${fullName}.ts`);
 
-const migrationTemplate = `export default {
-    name: '${fullName}',
-    up: (knex) => {
+const migrationTemplate = `/** This is a migration stub. For details on filling it, see https://salsita.github.io/node-pg-migrate/#/ */
 
-    },
-    down: (knex) => {
+exports.up = (pgm) => {
 
-    },
+}
+exports.down = (pgm) => {
+    
 }
 `;
 
 fs.writeFileSync(filePath, migrationTemplate);
 console.log(`Migration saved to "${filePath}"`);
-
-// Update index.ts
-const indexPath = path.resolve(migrationsPath, 'index.ts');
-const indexContent = fs.readFileSync(indexPath, 'utf-8');
-const parts = indexContent.split(/\[|\]/);
-const linebreak = indexContent.indexOf('\r\n') > -1 ? '\r\n' : '\n';
-const importStatements = parts[1].split(linebreak).reduce((res, s) => {
-    const value = s.trim();
-    if(value) {
-        res.push(value);
-    }
-    return res;
-}, []);
-
-importStatements.push(`(await import('./${fullName}')).default,`)
-const newIndexContent = `${parts[0]}[
-${importStatements.map((s) => `        ${s}`).join(linebreak)}    
-    ]${parts[2]}`;
-
-fs.writeFileSync(indexPath, newIndexContent);
-
-console.log('Migration created successfully');
-

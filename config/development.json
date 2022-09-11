@@ -1,9 +1,9 @@
 {
     "db": {
-        "username": "postgres",
+        "user": "postgres",
         "password": "123",
         "database": "vitube",
         "host": "db",
-        "dialect": "postgres"
+        "connectionTimeoutMillis": 30000
     }
 }

@@ -1,9 +1,11 @@
 {
     "db": {
-        "username": "postgres",
+        "user": "postgres",
         "password": "123",
         "database": "vitube",
-        "host": "db",
-        "dialect": "postgres"
+        "host": "db"
+    },
+    "auth": {
+        "salt": "43RsTTsjf41"
     }
 }

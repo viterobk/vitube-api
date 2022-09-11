@@ -1,1 +1,2 @@
-export { default as DBProvider } from './DBProvider';
+export { default as migrationManager } from './MigrationManager';
+export { default as dbAdapter } from './DBAdapter';
