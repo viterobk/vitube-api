@@ -1,7 +1,8 @@
-import { IEntity } from "../core/interfaces";
+import { IEntity } from "@core/interfaces";
 
 export interface IVideo extends IEntity {
-    id: number;
+    id?: string;
+    userid: string;
     url: string;
     name: string;
     tags: string[];

@@ -1,8 +1,8 @@
-import { IEntity } from "../core/interfaces";
+import { IEntity } from "@core/interfaces";
 
 export interface IUser extends IEntity {
-    id: number;
+    id?: string;
+    authId: string;
     email: string;
     name: string;
-    role: string;
 }
