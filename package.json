@@ -28,6 +28,7 @@
     "knex": "^2.2.0",
     "lodash": "^4.17.21",
     "node-pg-migrate": "^6.2.2",
+    "nodemailer": "^6.7.8",
     "nodemon": "^2.0.19",
     "pg": "^8.7.3",
     "pg-pool": "^3.5.1",

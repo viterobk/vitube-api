@@ -22,6 +22,12 @@ module.exports = {
         roots: [path.resolve('./')],
         extensions: ['.tsx', '.ts', '.js', '.json'],
         plugins: [new TsconfigPathsPlugin()],
+        alias: {
+            '@core$': path.resolve(__dirname, 'core'),
+            '@services$': path.resolve(__dirname, '/services'),
+            '@repositories$': path.resolve(__dirname, '/repositories'),
+            '@db$': path.resolve(__dirname, './db'),
+        }
     },
     target: 'node',
     devtool: 'eval-cheap-module-source-map',

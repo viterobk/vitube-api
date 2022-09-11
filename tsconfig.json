@@ -5,6 +5,20 @@
     "target": "es6",
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "paths": {
+      "@core": ["./core"],
+      "@core/*": ["./core/*"],
+      "@services": ["./services"],
+      "@repositories": ["./repositories"],
+      "@repositories/*": ["./repositories/*"],
+      "@decorators": ["./decorators"],
+      "@utils/*": ["./utils/*"],
+      "@db": ["./db"],
+      "@constants": ["./constants/index"],
+      "@constants/*": ["./constants/*"],
+      "@exceptions": ["./exceptions/index"],
+      "@exceptions/*": ["./exceptions/*"]
+    },
   }
 }
