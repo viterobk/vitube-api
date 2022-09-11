@@ -5,5 +5,11 @@
         "routes": {
             "cors": true
         }
+    },
+    "auth": {
+        "salt": "DNrstUdS54t1",
+        "refreshTokenLifeDays": 30,
+        "accessTokenLifeMinutes": 10,
+        "secret": "NfTH535Pzd97"
     }
 }
