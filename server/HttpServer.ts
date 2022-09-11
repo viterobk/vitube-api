@@ -3,11 +3,12 @@ import _ from 'lodash';
 import cors from 'cors';
 import config from 'config';
 import routes from '../routes';
-import { IRouteOptions } from '../core/interfaces';
+import bodyParser from 'body-parser';
+import { IRouteOptions } from '@core/interfaces';
 import { addContextMiddleware, authMiddleware, handleErrorMiddlware } from './middlwares';
-import logger from '../core/logger';
+import { logger } from '@core';
 
-export default class {
+class HttpServer {
     private _app = express();
 
     private _registerRoute = (route: IRouteOptions) => {
@@ -30,8 +31,9 @@ export default class {
         }
     }
 
-    constructor() {
+    init() {
         this._app.use(cors());
+        this._app.use(bodyParser.json())
         this._app.use(addContextMiddleware);
         this._app.use(authMiddleware);
 
@@ -43,3 +45,5 @@ export default class {
         logger.info(`Listening to ${config.server.port} port`);
     }
 }
+
+export default new HttpServer();

@@ -1,1 +1,1 @@
-export { default as HttpServer } from './HttpServer';
+export { default as httpServer } from './HttpServer';
