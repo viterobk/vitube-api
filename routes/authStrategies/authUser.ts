@@ -1,8 +1,8 @@
-import { IAuthStrategy } from "../../core/interfaces";
+import { IAuthStrategy, ICurrentUser } from "@core/interfaces";
 
 class UserAuthStrategy implements IAuthStrategy {
-    authorize = (user) => {
-        const authorized = user.isValid;
+    authorize = (user: ICurrentUser) => {
+        const authorized = !!user;
         return {
             authorized,
             responseCode: authorized ? undefined : 404,

@@ -1,4 +1,4 @@
-import { Route } from "../core/Route";
+import { Route } from "./common";
 import { user } from "./authStrategies";
 
 export default [

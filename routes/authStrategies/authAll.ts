@@ -1,4 +1,4 @@
-import { IAuthStrategy } from "../../core/interfaces";
+import { IAuthStrategy } from "@core/interfaces";
 
 class AllAuthStrategy implements IAuthStrategy {
     authorize = () => {
