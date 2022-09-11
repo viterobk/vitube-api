@@ -1,4 +1,4 @@
-import Service from "./Service";
+import Service from "./common/Service";
 
 export class VideosService extends Service {
 

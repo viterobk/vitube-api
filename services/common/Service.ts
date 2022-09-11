@@ -1,8 +1,7 @@
 import { IServices } from "./IServices";
-import { ServiceBase } from "../core/ServiceBase";
+import { ServiceBase } from "@core";
 import serviceProvider from "./serviceProvider";
-import repositoryProvider from "../repositories/repositoryProvider";
-import { IRepositories } from "../repositories";
+import { IRepositories, repositoryProvider } from "@repositories";
 
 export default class Service extends ServiceBase<IServices, IRepositories> {
     constructor() {
