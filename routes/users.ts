@@ -1,67 +1,46 @@
-import { Route } from "./common";
-import { admin, user } from "./authStrategies";
+const getUsers = (req, res, next) => {
+    //TODO
+    next();
+}
 
-export default [
-    new Route()
-        .path('/users')
-        .method('get')
-        .authStrategy(admin)
-        .argsConverter((req, res) => req)
-        .handler((req, context) => {
-            console.log('Get users handler');
-            return 'Here will be a list of users!';
-        })
-        .build(),
-    
-    new Route()
-        .path('/users/:userid')
-        .method('get')
-        .authStrategy(user)
-        .argsConverter((req, res) => req.params.userid)
-        .handler((userId, context) => {
-            console.log('Get user by ID handler');
-        })
-        .build(),
+const getUser = (req, res, next) => {
+    //TODO
+    next();
+}
 
-    new Route()
-        .path('/users/:userid')
-        .method('put')
-        .authStrategy(user)
-        .argsConverter((req, res) => req)
-        .handler((req) => {
-            console.log('Update user data handler');
-        })
-        .build(),
+const putUser = (req, res, next) => {
+    //TODO
+    next();
+}
 
-    new Route()
-        .path('/users/:userid')
-        .method('put')
-        .authStrategy(user)
-        .argsConverter((req, res) => req)
-        .handler((req) => {
-            console.log('Update user data handler');
-        })
-        .build(),
+const postUser = async (req, res, next) => {
+    const { users } = req.context?.services;
+    const userData = req.body;
+    try {
+        await users.addUser(userData);
+        res.code(200).send('User added');
+    } catch (e) {
+        next(e);
+    }
+    next();
+}
 
-    new Route()
-        .path('/users')
-        .method('post')
-        .authStrategy(user)
-        .argsConverter((req, res) => req.body)
-        .handler(async (userData, context) => {
-            const { users } = context.services;
-            await users.addUser(userData);
-        })
-        .build(),
+const deleteUser = async (req, res, next) => {
+    const { users } = req.context.services;
+    const { userId } = req.params;
+    try {
+        await users.deleteUser(userId);
+        res.code(200).send('User deleted');
+    } catch (e) {
+        next(e);
+    }
+    next();
+}
 
-    new Route()
-        .path('/users/:userid')
-        .method('delete')
-        .authStrategy(user)
-        .argsConverter((req, res) => req.params.userid as string)
-        .handler(async (userid: string, context) => {
-            const { users } = context.services;
-            return await users.deleteUser(userid);
-        })
-        .build(),
-]
+export default {
+    getUsers,
+    getUser,
+    putUser,
+    postUser,
+    deleteUser,
+}

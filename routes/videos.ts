@@ -1,49 +1,42 @@
-import { Route } from "./common";
-import { user } from "./authStrategies";
+const getAllVideos = (req, res, next) => {
+    //TODO
+    next();
+}
 
-export default [
-    new Route()
-        .method('get')
-        .path('/videos')
-        .authStrategy(user)
-        .handler((_, context) => {
-            
-        })
-        .build(),
+const getVideos = (req, res, next) => {
+    //TODO
+    next();
+}
 
-    new Route()
-        .method('get')
-        .path('/videos/:videoid')
-        .authStrategy(user)
-        .handler((_, context) => {
+const getVideo = (req, res, next) => {
+    //TODO
+    next();
+}
 
-        })
-        .build(),
+const putVideo = (req, res, next) => {
+    //TODO
+    next();
+}
 
-    new Route()
-        .method('post')
-        .path('/videos')
-        .authStrategy(user)
-        .handler((_, context) => {
+const postVideo = async (req, res, next) => {
+    const { users } = req.context?.services;
+    const userData = req.body;
+    await users.addUser(userData);
+    next();
+}
 
-        })
-        .build(),
-    
-    new Route()
-        .method('put')
-        .path('/videos/:videoid')
-        .authStrategy(user)
-        .handler((_, context) => {
+const deleteVideo = async (req, res, next) => {
+    const { users } = req.context.services;
+    const { userId } = req.params;
+    await users.deleteUser(userId);
+    next();
+}
 
-        })
-        .build(),
-
-    new Route()
-        .method('delete')
-        .path('/videos/:videoid')
-        .authStrategy(user)
-        .handler((_, context) => {
-
-        })
-        .build(),
-];
+export default {
+    getAllVideos,
+    getVideos,
+    getVideo,
+    putVideo,
+    postVideo,
+    deleteVideo,
+}
